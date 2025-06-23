@@ -1,6 +1,6 @@
 import express, { Application } from "express";
 import routes from "./routes/index.routes";
-
+import "dotenv/config";
 class App {
   private express: Application;
   private PORT: number;
