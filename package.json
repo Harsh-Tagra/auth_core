@@ -1,0 +1,37 @@
+{
+  "name": "auth-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-node run-both-tests.ts",
+    "test:unit": "jest --config=tests/setup/jest.config.unit.ts",
+    "test:integration": "jest --config=tests/setup/jest.config.integration.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.0",
+  "devDependencies": {
+    "@prisma/client": "^6.10.1",
+    "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.3",
+    "execa": "^9.6.0",
+    "jest": "^30.0.1",
+    "prisma": "^6.10.1",
+    "ts-jest": "^29.4.0",
+    "ts-watch": "^1.0.8",
+    "tsc-watch": "^7.1.1",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0"
+  }
+}
