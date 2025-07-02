@@ -64,7 +64,7 @@ describe("Auth Service", () => {
     const result = await authService.register(name, email, password);
 
     expect(result).toEqual({
-      error: "User already exists but not verified",
+      error: "User already exists",
       status: 409,
     });
   });

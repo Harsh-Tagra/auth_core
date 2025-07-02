@@ -1,7 +1,7 @@
 import { Request } from "express";
 import AuthController from "../../../src/controllers/auth.controller";
 
-describe(" Auth Repository", () => {
+describe("Auth Controller", () => {
   const mockUserData = {
     id: "user1",
     name: "Harsh",
