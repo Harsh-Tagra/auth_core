@@ -22,4 +22,9 @@ describe("Hasher Utility", () => {
     );
     expect(result).toBe(false);
   });
+  it("should generate a secure random token", async () => {
+    const result = await hasher.generateToken();
+    expect(typeof result).toBe("string");
+    expect(result.length).toBe(64);
+  });
 });
