@@ -7,12 +7,8 @@ describe(" Auth Repository", () => {
 
   const mockUser = {
     email: "test@example.com",
-    isPrimary: true,
-    user: {
-      name: "test",
-      password: "hashedpwd",
-      id: "der909ru804u0u8950",
-    },
+    name: "test",
+    password: "hashedpwd",
   };
   const mockUserData = {
     id: "user1",
@@ -42,16 +38,10 @@ describe(" Auth Repository", () => {
   });
 
   it("should return email with user if found by email ", async () => {
-    (mockPrisma.email.findUnique as jest.Mock).mockResolvedValue(mockUser);
+    (mockPrisma.email.findUnique as jest.Mock).mockResolvedValue(mockUserData);
     const user = await AuthRepo.findByEmail(email);
     expect(user).not.toBeNull();
-    expect(user).toBe(mockUser);
-  });
-  it("should returns user when email  exist  ", async () => {
-    (mockPrisma.email.findUnique as jest.Mock).mockResolvedValue(mockUser);
-    const user = await AuthRepo.findByEmail(email);
-    expect(user).not.toBeNull();
-    expect(user).toBe(mockUser);
+    expect(user).toBe(mockUserData);
   });
 
   it("should create a user with provided data &&  return the created user object on success  ", async () => {
@@ -59,11 +49,39 @@ describe(" Auth Repository", () => {
 
     const user = await AuthRepo.createUser(
       mockUser.email,
-      mockUser.user.name,
-      mockUser.user.password,
-      "dd"
+      mockUser.name,
+      mockUser.password
     );
     expect(user).not.toBeNull();
     expect(user).toBe(mockUserData);
+  });
+  it("should throw an error if prisma.user.create throws", async () => {
+    const errorMessage = "Database error";
+
+    jest
+      .spyOn(mockPrisma.user, "create")
+      .mockRejectedValue(new Error(errorMessage));
+
+    await expect(
+      AuthRepo.createUser(mockUser.email, mockUser.name, mockUser.password)
+    ).rejects.toThrow(errorMessage);
+  });
+
+  it("should throw an error if prisma.email.findUnique throws", async () => {
+    const errorMessage = "DB exploded";
+
+    (mockPrisma.email.findUnique as jest.Mock).mockRejectedValue(
+      new Error(errorMessage)
+    );
+
+    await expect(AuthRepo.findByEmail("user@GMAI.COM")).rejects.toThrow(
+      errorMessage
+    );
+  });
+  it("should return null if email is empty string", async () => {
+    (mockPrisma.email.findUnique as jest.Mock).mockResolvedValue(null);
+
+    const result = await AuthRepo.findByEmail("");
+    expect(result).toBe(null);
   });
 });

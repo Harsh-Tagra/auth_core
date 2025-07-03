@@ -20,13 +20,13 @@ export class AuthRepository {
       },
     });
   };
-  public createUser = (
+  public createUser = async (
     email: string,
     name: string,
     password: string,
     profileImage?: string
   ): Promise<User | null> => {
-    return this.prisma.user.create({
+    return await this.prisma.user.create({
       data: {
         profileImage,
         name,
